@@ -5,14 +5,25 @@
   <title>Title</title>
 </head>
 <body>
-  <div id="triviaContain">
+<!-- show start button onload && on restart button at final screen -->
+<!-- hide startContain onclick start button -->
+  <div id="startContain" class="container">
+  </div>
+
+<!-- trivia container for question and answer (gen with .map or forEach) -->
+  <div id="triviaContain" class="container">
 
     <div id="showTrivia">
-      
+      <!-- show the question forEach/map -->
+      <div id="showQ">
+      </div>
+      <!-- show the answer forEach/map -->
+      <div id="showAns">
+      </div>
     </div>
-
+    <!-- show on win/lose/time out condition -->
     <div id="checkResult">
-      <!-- show text wrong/correct/out of time -->
+      <!-- show text: wrong/correct/out of time -->
       <div id="txtResult">
       </div>
       <!-- show img based on quiz result -->

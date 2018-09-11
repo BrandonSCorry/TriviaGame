@@ -2,45 +2,45 @@
 var triviaData = [
   {
     id: 1,
-    q: "q1",
-    ans: ['a', 'b', 'c', 'd'],
-    answer: 'a',
+    q: "What is 2 + 2?",
+    ans: ['1', '2', '3', '4'],
+    answer: '4',
     ansImg: '',
     failImg: '',
     timeImg: ''
   },
   {
     id: 2,
-    q: "q2",
-    ans: ['a', 'b', 'c', 'd'],
-    answer: 'b',
+    q: "What is 10 * 8",
+    ans: ['8', '80', '10', '88'],
+    answer: '80',
     ansImg: '',
     failImg: '',
     timeImg: ''
   },
   {
     id: 3,
-    q: "q3",
-    ans: ['a', 'b', 'c', 'd'],
-    answer: 'c',
+    q: "What is 40-45?",
+    ans: ['5', '-40', '-5', '10'],
+    answer: '-5',
     ansImg: '',
     failImg: '',
     timeImg: ''
   },
   {
     id: 4,
-    q: "q4",
-    ans: ['a', 'b', 'c', 'd'],
-    answer: 'd',
+    q: "What is '5' + '5'?",
+    ans: ['10', '5', '55', '50'],
+    answer: '55',
     ansImg: '',
     failImg: '',
     timeImg: ''
   },
   {
     id: 5,
-    q: "q5",
-    ans: ['a', 'b', 'c', 'd'],
-    answer: 'a',
+    q: "What is 3 * 5 - 2?",
+    ans: ['9', '13', '15', '17'],
+    answer: '13',
     ansImg: '',
     failImg: '',
     timeImg: ''
@@ -48,14 +48,9 @@ var triviaData = [
 ];
 
 
-//TODO: TO create answer 'buttons' for each answer to 1 question: use forEach or .map to generate each answer string for the question set array index triviaData[i].id  , triviaData[i].ans etc??
-//TODO: use ternary op to check if answer is correct (make a variable) ex:   var checkAnswer = //get obj info from each button on click, check against answer obj prop, ex : triviaData[i].ans.a/b/c/d === triviaData[i].answer
-//TODO then use tern op ? :     var isCorrect = checkAnswer? "Correct" : !checkAnswer? "Incorrect";   <-   use var isCorrect
-//TODO: make sure to reset time on correct ans, incorrect ans, page load, etc?
+
 //global variables
 
-
-//TODO: FIRST!! IMPORTANT!! just get 1st question to display in #showQ and 1st set of triviaData.ans[i] (with map or forEach to generate, then jquery display on page both)
 var startBtn = $('#startBtn');
 var showQ = $('#showQ');
 var showAnswer = $('#showAnswer');
@@ -63,73 +58,84 @@ var txtResult = $('#txtResult');
 var imgResult = $('#imgResult');
 
 var genAnsArr = [];
-var genQArr = [];
 
 var count = 0;
-var output;
+// var output;
+
+//timer vars
+var timeLeft = 30;
+var timeOutput = document.getElementById('timer');
+
+var timerInterval = setInterval(timer, 1000);
 
 
 console.log(triviaData[0].ans);
-//show q function
 
 $("#triviaContain").hide();
 
+//timer
+function timer() {
+  if (timeLeft == 0) {
+    clearTimeout(timerInterval);
+    $("#txtResult").html("You ran out of time!");
+    $("#imgResult").html(triviaData[count].timeImg);
+
+    timeOut();
+
+    $()
+
+  } else {
+    $(timeOutput).html(timeLeft + ' seconds left');
+    timeLeft--;
+  }
+}
+
+
+//having scope errors trying to get object data in this function
+//won't loop because triviaData[count].q & .ans are undefined.
 function startTrivia() {
+
+  genAnsArr = [];
+  count = 0;
+
 
   $("#startContain").hide();
   $("#triviaContain").show();
-
-
-
 
   showQ.html(triviaData[count].q);
 
   genAnsArr = triviaData[count].ans;
 
 
-  $(showAnswer).html(genAnsArr.map(function (items) {
-    return ("<button class='answerBtn' data-answer='" + items +"'>" + items + '</button>');
+  showAnswer.html(genAnsArr.map(function (items) {
+    return ("<button class='answerBtn' data-answer='" + items + "'>" + items + '</button>');
   }).join("<br>"));
-
-
-
-
-  //generate array buttons whyyy is this so hard
-
-
-
-
-  // genAnsArr.forEach (() => {
-  //
-  //     $("#showAns").append("<button class='triviaAns' data-topic='" + triviaData.ans +"'>" + triviaData.ans + '</button>');
-  //
-  //
-  //   }
-  //
-  // );
-
-  // showAns.html(triviaData[0].ans);
-
 }
 
+
 function timeOut () {
-  setTimeout(function() {
-    showQ.html(triviaData[count].q);
-
-    genAnsArr = triviaData[count].ans;
-    console.log(genAnsArr[count]);
 
 
-    $(showAnswer).html(genAnsArr.map(function (items) {
-      $(showAnswer).html("<button class='answerBtn' data-answer='" + items +"'>" + items + '</button>');
-    }).join("<br>"));
+  if (count <= triviaData.length) {
 
-  }, 1000);
+    setTimeout(function () {
+
+      $("#txtResult, #imgResult").empty();
+      $("#showTrivia").show();
+
+
+      showAnswer.show();
+
+
+    }, 4000);
+  }
+  else {
+    showEndScreen();
+  }
 }
 
 
 function showWin () {
-  $("#showAnswer").hide();
   $("#txtResult").html(triviaData[count].answer + " is correct, you won this time!");
   $("#imgResult").html(triviaData[count].ansImg);
 
@@ -139,7 +145,6 @@ function showWin () {
 }
 
 function showFail () {
-  $("#showAnswer").hide();
   $("#txtResult").html("The correct answer was " + triviaData[count].answer + "<br> Better luck next time!");
   $("#imgResult").html(triviaData[count].failImg);
 
@@ -148,124 +153,16 @@ function showFail () {
 
 }
 
-function showTimeOut () {
-  var thisData = this.triviaData;
-  var extraData = thisData.timeImg;
-  $("#txtResult").html("You ran out of time!");
-  $("#imgResult").html(triviaData[count].timeImg);
-  console.log(thisData);
+function showEndScreen () {
+  $("#triviaContain").empty();
+  $("#startContain").show();
+  $("#startBtn").html("Restart");
+  //show end screen with restart button
 }
 
-  // add this question and its answers to the output
-  // output.push(
-  //   `<div class="question"> ${currentQuestion.question} </div>
-  //       <div class="answers"> ${answers.join("")} </div>`
-  // );
 
 
-// //might not need reset
-// function resetTrivia() {
-//
-// }
-// //combine this !
-// function generateQ() {
-//   var output = [];
-//   showQ.innerHTML()
-//
-//
-//
-//
-//
-//   // for each question...
-//   // triviaData.forEach(
-//   //   (currentQuestion, questionNumber) => {
-//   //
-//   //     // we'll want to store the list of answer choices
-//   //     genAnsArr = [];
-//   //
-//   //     // and for each available answer...
-//   //     for(letter in currentQuestion.ans){
-//   //
-//   //       // ...add an HTML radio button
-//   //       answers.push(
-//   //           ${currentQuestion.answers[letter]}
-//   //        );
-//   //     }
-//   //
-//   //     // add this question and its answers to the output
-//   //     output.push(
-//   //       `<div class="question"> ${currentQuestion.question} </div>
-//   //       <div class="answers"> ${answers.join('')} </div>`
-//   //     );
-//   //   }
-//   // );
-//   //
-//   // // finally combine our output list into one string of HTML and put it on the page
-//   // quizContainer.innerHTML = output.join('');
-//   //
-//   // // for each question...
-//   // for(var i=0; i<questions.length; i++){
-//   //
-//   //   // first reset the list of answers
-//   //   answers = [];
-//   //
-//   //   // for each available answer...
-//   //   for(letter in questions[i].answers){
-//   //
-//   //     // ...add an html radio button
-//   //     answers.push(
-//   //       '<label>'
-//   //       + '<input type="radio" name="question'+i+'" value="'+letter+'">'
-//   //       + letter + ': '
-//   //       + questions[i].answers[letter]
-//   //       + '</label>'
-//   //     );
-//   //   }
-//   //
-//   //   // add this question and its answers to the output
-//   //   output.push(
-//   //     '<div class="question">' + questions[i].question + '</div>'
-//   //     + '<div class="answers">' + answers.join('') + '</div>'
-//   //   );
-//   // }
-//
-//   // finally combine our output list into one string of html and put it on the page
-//   // quizContainer.innerHTML = output.join('');
-//   //
-//
-// }
-//
-// function generateAns() {
-//
-// }
-//
-//
-// function generateImg() {
-//
-// }
-//
-// function generateTxt() {
-//
-// }
-//
-//
-//
-//
-// //start function (maybe connect this to a 'start' button on load?
-//
-//
-// //update/reset function
-//
-// //check answer function
-//
-//
-// //stuff with timer? etc
-//
-// //call stuff
-// // show q's in triviaContain
-// // genTrivia(questions, quizContainer);
-//
-// //TODO: more onclick stuff, and timers
+
 // //onclick start button
 $("#startContain").on("click", startBtn, function(e) {
   e.preventDefault();
@@ -279,29 +176,42 @@ $("#startContain").on("click", startBtn, function(e) {
 $("#triviaContain").on("click", ".answerBtn", function(e) {
   //use on start function -> reset variables, show question and possible answers
   e.preventDefault();
+
   var getBtnAnswer = $(this).data('answer');
-  var checkBtnAnswer = getBtnAnswer === triviaData[count].answer;
+  var checkBtnAnswer = getBtnAnswer == triviaData[count].answer;
+  console.log(triviaData[count].answer);
+  var checkArrLength = count >= triviaData.length;
 
- //todo: checkBtnAnswer? call win function : !checkBtnAnswer? call lose function;
-  //todo: add timeout, and then call startTrivia function (remove startbutton from startTrivia)
+  if (!checkArrLength) {
 
-  //todo: if any condition is met, call startTrivia();
-  console.log(getBtnAnswer);
+    console.log(getBtnAnswer);
 
-  console.log(checkBtnAnswer);
+    console.log(checkBtnAnswer);
 
-  var checkAnswer = checkBtnAnswer? showWin() : showFail();
+    var checkAnswer = checkBtnAnswer ? showWin() : showFail();
 
-  count++;
-
-
-
-
+    count++;
+    timeLeft = 30;
+    $("#triviaContain").show();
 
 
 
-  //get button val / data-answer / etc? and compare it against current answer
-  // if answer is correct , go to win screen and gamereStart
-  // if answer is wrong, go to lose screen and gamereStart
-  // if time runs out (outside of this onclick), show time out screen adn gamerestart
+
+    showQ.html(triviaData[count].q);
+
+
+    genAnsArr = triviaData[count].ans;
+
+
+    showAnswer.html(genAnsArr.map(function (items) {
+      return ("<button class='answerBtn' data-answer='" + items +"'>" + items + '</button>');
+    }).join("<br>"));
+
+  }
+  else {
+    showEndScreen();
+    count = 0;
+
+  }
+
 });

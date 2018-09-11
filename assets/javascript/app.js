@@ -79,6 +79,49 @@ var triviaData = [
 //TODO: make sure to reset time on correct ans, incorrect ans, page load, etc?
 //global variables
 
+var startBtn = $('#startBtn');
+var showQ = $('#showQ');
+var showAns = $('#showAns');
+var txtResult = $('#txtResult');
+var imgResult = $('#imgResult');
+
+var genAnsArr = [];
+var genQArr = [];
+
+
+//show q function
+
+function startTrivia() {
+
+}
+
+
+//might not need reset
+function resetTrivia() {
+
+}
+
+function generateQ() {
+
+
+}
+
+
+function generateAns() {
+
+}
+
+
+function generateImg() {
+
+}
+
+function generateTxt() {
+
+}
+
+
+
 
 //start function (maybe connect this to a 'start' button on load?
 
@@ -89,3 +132,14 @@ var triviaData = [
 
 
 //stuff with timer? etc
+
+//call stuff
+// show q's in triviaContain
+genTrivia(questions, quizContainer);
+
+
+//onclick start button
+// on submit, show results
+startBtn.onclick = function(){
+   //use on start function -> reset variables, show question and possible answers
+};

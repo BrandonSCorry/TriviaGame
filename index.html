@@ -2,18 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+
+  <!-- Materialize-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+  <!-- style -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+
   <title>Title</title>
 </head>
 <body>
 <!-- show start button onload && on restart button at final screen -->
-<!-- hide startContain onclick start button -->
-  <div id="startContain" class="container">
-  </div>
+
 
 <!-- trivia container for question and answer (gen with .map or forEach) -->
   <div id="triviaContain" class="container">
-
-    <div id="showTrivia">
+    <div id="showTrivia" class="container">
+      <!-- show countdown timer -->
+      <div id="timer">
+      </div>
       <!-- show the question forEach/map -->
       <div id="showQ">
       </div>
@@ -22,7 +29,7 @@
       </div>
     </div>
     <!-- show on win/lose/time out condition -->
-    <div id="checkResult">
+    <div id="showResult" class="container">
       <!-- show text: wrong/correct/out of time -->
       <div id="txtResult">
       </div>
@@ -33,5 +40,14 @@
     </div>
   </div>
 
+<!-- hide startContain onclick start button -->
+  <div id="startContain" class="container">
+    <button id="startBtn"></button>
+  </div>
+
+<!-- jQuery link -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- trivia js -->
+<script src="./assets/javascript/app.js"></script>
 </body>
 </html>
